@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, FormEvent, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import axios from "axios";
 import Loader from "../components/Loader";
@@ -16,7 +16,9 @@ const LoginScreen = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
       ...prevState,
@@ -24,7 +26,7 @@ const LoginScreen = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setMessage(""); // Reset any previous message
@@ -55,7 +57,7 @@ const LoginScreen = () => {
       } else {
         setMessage("Login failed. Please check your credentials.");
       }
-    } catch (error) {
+    } catch (error: any) {
       // Handle error
       console.error(error);
       setMessage(

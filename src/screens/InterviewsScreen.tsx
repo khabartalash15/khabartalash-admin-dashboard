@@ -52,13 +52,19 @@ const InterviewScreen = () => {
       const res = await axios.delete(
         `${BASE_URL}/interviews/${selectedInterviewId}`
       );
-      setInterviews((prevInterviews) =>
-        prevInterviews.filter(
-          (item: Interview) => item._id !== selectedInterviewId
-        )
-      );
-      setModalVisible(false);
-      setSelectedInterviewId(null);
+
+      // Check if the response indicates success
+      if (res.status === 200 || res.data.success) {
+        setInterviews((prevInterviews) =>
+          prevInterviews.filter(
+            (item: Interview) => item._id !== selectedInterviewId
+          )
+        );
+        setModalVisible(false);
+        setSelectedInterviewId(null);
+      } else {
+        console.error("Failed to delete interview. Response not successful.");
+      }
     } catch (error) {
       console.error("Error deleting interview:", error);
     }

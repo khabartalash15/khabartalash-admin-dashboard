@@ -2,22 +2,33 @@ import { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/const";
 
+interface FormData {
+  title: string;
+  imageUrl: string;
+  description: string;
+  category: string;
+}
+
 const CreateNewsScreen = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     title: "",
     imageUrl: "",
     description: "",
-    category: "", // Add category field to form data
+    category: "",
   });
 
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<string>("");
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -29,7 +40,6 @@ const CreateNewsScreen = () => {
       }
     } catch (error) {
       console.error(error);
-      setMessage(error.response?.data?.message || "An error occurred.");
     }
   };
 
@@ -99,7 +109,7 @@ const CreateNewsScreen = () => {
               value={formData.description}
               onChange={handleChange}
               placeholder="Enter news description"
-              rows="5"
+              rows={5}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-gray-500"
             ></textarea>

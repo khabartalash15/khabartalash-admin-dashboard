@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/const";
 
@@ -11,12 +11,16 @@ const CreateInterviewScreen = () => {
 
   const [message, setMessage] = useState("");
 
-  const handleChange = (e) => {
+  // Specify the type for the event parameter using ChangeEvent
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  // Specify the type for the event parameter using FormEvent
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -26,7 +30,8 @@ const CreateInterviewScreen = () => {
         setMessage("Interview created successfully!");
         setFormData({ title: "", videoLink: "", description: "" }); // Reset form
       }
-    } catch (error) {
+    } catch (error: any) {
+      // Use 'any' if the error doesn't have a well-defined structure
       console.error(error);
       setMessage(error.response?.data?.message || "An error occurred.");
     }
@@ -79,7 +84,7 @@ const CreateInterviewScreen = () => {
               value={formData.description}
               onChange={handleChange}
               placeholder="Enter interview description"
-              rows="5"
+              rows={5}
               required
               className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-gray-500"
             ></textarea>

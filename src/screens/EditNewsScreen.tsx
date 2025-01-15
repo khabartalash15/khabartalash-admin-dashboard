@@ -40,13 +40,17 @@ const EditNewsScreen = () => {
   }, [id]);
 
   // Handle input changes
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   // Handle form submission
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       const response = await axios.put(`${BASE_URL}/news/${id}`, formData);
@@ -55,7 +59,6 @@ const EditNewsScreen = () => {
       }
     } catch (error) {
       console.error(error);
-      setMessage(error.response?.data?.message || "An error occurred.");
     }
   };
 
@@ -126,7 +129,7 @@ const EditNewsScreen = () => {
                 value={formData.description}
                 onChange={handleChange}
                 placeholder="Enter news description"
-                rows="5"
+                rows={5}
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-gray-500"
               ></textarea>

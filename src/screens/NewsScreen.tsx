@@ -48,11 +48,17 @@ const NewsScreen = () => {
 
     try {
       const res = await axios.delete(`${BASE_URL}/news/${selectedNewsId}`);
-      setNews((prevNews) =>
-        prevNews.filter((item: News) => item._id !== selectedNewsId)
-      );
-      setModalVisible(false);
-      setSelectedNewsId(null);
+
+      // Check if the response indicates success
+      if (res.status === 200 || res.data.success) {
+        setNews((prevNews) =>
+          prevNews.filter((item: News) => item._id !== selectedNewsId)
+        );
+        setModalVisible(false);
+        setSelectedNewsId(null);
+      } else {
+        console.error("Failed to delete news. Response not successful.");
+      }
     } catch (error) {
       console.error("Error deleting news:", error);
     }
